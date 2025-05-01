@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>블로그 키워드 중복 확인</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    label, input, button {
+      display: block;
+      margin-top: 15px;
+      width: 100%;
+    }
+    button {
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    pre {
+      background: #f4f4f4;
+      padding: 10px;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h2>⚡ 블로그 키워드 중복 확인 프로그램</h2>
+  <form id="checkForm">
+    <label for="keywords">※ 키워드를 쉼표(,)로 구분해서 입력하세요.</label>
+    <input type="text" id="keywords" placeholder="예: 일산 점집, 서울점집, 연애운">
+    <button type="submit">확인하기</button>
+  </form>
+  <pre id="result"></pre>
+
+  <script>
+    document.getElementById("checkForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const keywords = document.getElementById("keywords").value;
+      const response = await fetch("https://blog-ii3k.onrender.com/check_keywords", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ keywords: keywords })
+      });
+      const result = await response.json();
+      document.getElementById("result").textContent = JSON.stringify(result, null, 2);
+    });
+  </script>
+</body>
+</html>
